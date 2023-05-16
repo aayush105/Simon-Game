@@ -10,7 +10,7 @@ var highscore = 0;
 $(document).keypress(function () {
     if (!started) {
         if (highscore) {
-            $("#highscore").text("Highscore: " + highscore);
+            $("#highscore").text("Highscore: " + (highscore-1));
         }
 
         $("#level-title").text("Level " + level);
@@ -52,6 +52,7 @@ function checkAnswer(currentLevel) {
         if (level > highscore) {
             highscore = level;
             $("#level-title").text("New Highscore, Press Any Key to Restart");
+            $("#highscore").text("Highscore: " + (highscore-1));
         }
         else {
             $("#level-title").text("Game Over, Press Any Key to Restart");

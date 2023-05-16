@@ -57,3 +57,16 @@ body {
   box-shadow: 0 0 20px white;
   background-color: grey;
 }
+
+footer {
+  color: #DBEDF3;
+  font-family: sans-serif;
+}
+.fab{
+  color: #fff;
+  size: 20px;
+}
+a{
+  color: #fff;
+  text-decoration: none;
+}
