@@ -5,10 +5,54 @@ var userClickedPattern=[];
 var started=false;
 var level = 0;
 
+
+$(document).keypress(function(){
+    if(!started){
+        $("#level-title").text("Level " + level);
+        nextSequence();
+        started=true;
+    }
+});
+
+$(".btn").click(function(){
+
+    var userChosenColor = $(this).attr("id");
+    userClickedPattern.push(userChosenColor);
+
+    console.log(userClickedPattern.length);
+    checkAnswer(userClickedPattern.length-1);
+    playSound(userChosenColor);
+    animatePress(userChosenColor);
+});
+
+
+
+function checkAnswer(currentLevel){
+    if(userClickedPattern[currentLevel] === gamePattern[currentLevel]  ){
+        console.log("success");
+
+        if(userClickedPattern.length === gamePattern.length){
+            setTimeout(function(){
+                nextSequence();
+            },1000);
+        }
+
+    }else{
+        playSound("wrong");
+        $("body").addClass("game-over");
+        setTimeout(function(){
+            $("body").removeClass("game-over");
+        },200);
+
+        $("#level-title").text("Game Over, Press Any Key to Restart");
+        console.log("wrong");
+        startOver();
+    }
+};
 function nextSequence(){
 
     userClickedPattern=[];
-    
+
     level++;
     $("#level-title").text("Level " + level);
 
@@ -26,17 +70,6 @@ function playSound(name){
     audio.play();
 };
 
-$(".btn").click(function(){
-
-    var userChosenColor = $(this).attr("id");
-    userClickedPattern.push(userChosenColor);
-
-    console.log(userClickedPattern.length);
-    checkAnswer(userClickedPattern.length-1);
-    playSound(userChosenColor);
-    animatePress(userChosenColor);
-});
-
 function animatePress(currentColor){
     $("#" + currentColor).addClass("pressed");
     setTimeout(function(){
@@ -44,26 +77,8 @@ function animatePress(currentColor){
     },100);
 };
 
-
-$(document).keypress(function(){
-    if(!started){
-        $("#level-title").text("Level " + level);
-        nextSequence();
-        started=true;
-    }
-});
-
-
-function checkAnswer(currentLevel){
-    if(userClickedPattern[currentLevel] === gamePattern[currentLevel]  ){
-        console.log("success");
-
-        if(userClickedPattern.length === gamePattern.length){
-            setTimeout(function(){
-                nextSequence();
-            },1000);
-        }
-
-    }else
-    console.log("wrong");
-};
+function startOver(){
+    level = 0;
+    gamePattern=[];
+    started=false;
+}
